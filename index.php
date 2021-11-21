@@ -11,14 +11,7 @@
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="script/jquery-3.6.0.js"></script>
-    <style>
-    html, body {margin: 0; height: 100%; overflow: hidden}
-    .form-btn{
-        margin-top:20px; 
-        padding-left:45px; 
-        padding-right:45px;
-    }
-    </style>
+    
 
     <title>BugMe</title>
 </head>
@@ -49,7 +42,7 @@
                             <input class="form-control" type="password" name="password" id="password" required>
                         </div>
                         
-                        <button class=" form-btn" id="sign-in" onclick="signIn()">Login</button>
+                        <button class="btn btn-primary form-btn" id="sign-in" onclick="signIn()">Login</button>
                     
                 </div>
             </div>

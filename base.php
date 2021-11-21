@@ -17,14 +17,6 @@
 
 <meta name="robots" content="noindex, follow">
 
-<style>
-  /*html, body {margin: 0; height: 100%; overflow: hidden}*/
-  .form-btn{
-    margin-top:20px; 
-    padding-left:45px; 
-    padding-right:45px;
-  }
-</style>
 </head>
 
 
@@ -42,9 +34,8 @@
 
   <nav id="sidebar" class="">
     <div class="custom-menu">
-      <button type="button" id="sidebarCollapse" class="btn btn-primary">
+      <button type="button" id="sidebarCollapse" class="btn-menu">
         <img id="menu-img" src="images/back.png" alt="">
-        <span class="sr-only">Toggle Menu</span>
       </button>
     </div>
     

@@ -177,6 +177,7 @@
                     /*code that gets the info and description from database and loads the info into details.php page*/
 
                     console.log('this is from the issueViewer function number'+number)
+                    $('#content').load('detail.php')
 
                 }
 
