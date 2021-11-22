@@ -154,12 +154,12 @@
             <script>
                 issueLister = (number, title, type, status, assgn, date) => {
                     
-                    let stat = ''
+                    var stat = ''
                     if (status == 'OPEN'){stat = 'open'}
                     else if (status == 'CLOSED'){stat = 'closed'}
                     else if (status == 'IN PROGRESS'){stat = 'in-progress'}
 
-                    let html = 
+                    var html = 
                     ` <div class='issue-list'  onclick='issueViewer(${number})'> `+
                         `<div class="t-column-title"><span>#${number}</span> <span style='color: lightskyblue;'>${title}</span></div>` +
                         `<div class="t-column">${type}</div>`+

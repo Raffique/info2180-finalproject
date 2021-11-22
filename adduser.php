@@ -13,19 +13,19 @@
             <h2 style="margin-bottom:30px;">New User</h2>
 
             <form action="">
-                <div class="form-group">
+                <div class="form-group" style="margin-bottom: 20px;">
                     <label for="fname">Firstname</label>
                     <input class="form-control" type="text" name="fname" id="fname" required style="max-width: 600px;">
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="margin-bottom: 20px;">
                     <label for="lname">Lastname</label>
                     <input class="form-control" type="text" name="lname" id="lname" required style="max-width: 600px;">
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="margin-bottom: 20px;">
                     <label for="password">Password</label>
                     <input class="form-control" type="text" name="password" id="password" required style="max-width: 600px;">
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="margin-bottom: 20px;">
                     <label for="email">Email</label>
                     <input class="form-control" type="text" name="email" id="email" required style="max-width: 600px;"> 
                 </div>

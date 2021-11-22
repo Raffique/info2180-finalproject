@@ -12,50 +12,44 @@
         <h2 style="margin-bottom: 30px;">Create Issue</h2>
         <form action="#">
         
-            <div class="form-group">
+            <div class="form-group" style="margin-bottom: 20px;">
                 <label for="title">Title</label>
                 <input class="form-control" type="" name="title" id="title" required style="max-width: 600px;">
             </div>
             
 
-            <div class="form-group">
+            <div class="form-group" style="margin-bottom: 20px;">
                 <label for="desc">Description</label>
                 <textarea class="form-control" name="desc" id="desc" required style="max-width: 600px; padding-bottom: 100px;"></textarea>
             </div>
             
-            <style>
-                .form-select{
-                    width: 100%; 
-                    max-width: 600px; 
-                    margin-left: 11px; 
-                    margin-bottom: 25px;
-                }
-            </style>
 
-            <div class="row">
+            <div class="row" style="margin-bottom: 20px;">
                 <label for="assgn">Assigned To</label>
-                <select class="custom-select form-select" name="assgn" id="assgn" required>
-                    
+                <select class="custom-select form-select" name="assgn" id="assgn" required style="max-width: 600px;">
+                    <script>
+                        //populate select with options of user names and their id's should be the s=assigned value
+                    </script>
                 </select>
             </div>
             
 
-            <div class="row">
+            <div class="row" style="margin-bottom: 20px;">
                 <label for="type">Type</label>
-                <select class="custom-select form-select" name="type" id="type" required>
-                    <option value="">Bug</option>
-                    <option value="">Proposal</option>
-                    <option value="">Task</option>
+                <select class="custom-select form-select" name="type" id="type" required style="max-width: 600px;">
+                    <option value="bug">Bug</option>
+                    <option value="proposal">Proposal</option>
+                    <option value="task">Task</option>
                 </select>
             </div>
             
 
-            <div class="row">
+            <div class="row" style="margin-bottom: 20px;">
                 <label for="priority">Priority</label>
-                <select class="custom-select form-select" name="priority" id="priority" required>
-                    <option value="">Minor</option>
-                    <option value="">Major</option>
-                    <option value="">Critical</option>
+                <select class="custom-select form-select" name="priority" id="priority" required style="max-width: 600px;">
+                    <option value="minor">Minor</option>
+                    <option value="major">Major</option>
+                    <option value="critical">Critical</option>
                 </select>
             </div>
             

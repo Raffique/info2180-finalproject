@@ -18,7 +18,7 @@
                 // this is used in the section below the description to show a timeline hostory of the issue being credted or modified
 
                 
-                let notes = ``
+                var notes = ``
                 history.forEach(el => {
                     if (el.key == 'OPEN'){
                         notes += `<span><strong> > </strong></span> <span class="detail-notes">Issue created on ${el.date} at ${el.time} by ${el.assgn}</span><br>`
@@ -31,7 +31,7 @@
                     }
                 })
 
-                let html = `
+                var html = `
                 <h1>${title}</h1>
                 <span><strong>Issue #${number}</strong></span>
 
@@ -98,11 +98,11 @@
             }
 
             //example of using function
-            let a = {status: 'OPEN', date: '2021-11-01', time: '10:00 AM', assgn: 'Raffique Muir'}
-            let b = {status: 'IN PROGRESS', date: '20201-11-02', time: '12:00 PM', assgn: 'Raffique Muir'}
-            let c = {status: 'CLOSED', date: '2021-11-12', time: '11:30 AM', assgn: 'Raffique Muir'}
-            let historyline = [a,b,c]
-            let info = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat quo tenetur magni ex laboriosam temporibus. Nostrum ullam blanditiis, voluptas aut sapiente obcaecati. Quaerat libero minima beatae dolorum quam placeat debitis! Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, obcaecati temporibus. Dolorem adipisci animi fuga nobis, odio aspernatur mollitia eaque id sint! Magni velit cumque quos inventore blanditiis nobis amet. Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate maiores quos ut adipisci necessitatibus quibusdam libero autem ab inventore ex nobis ad similique, nihil sed aliquid! Eos totam voluptatibus impedit.'
+            var a = {status: 'OPEN', date: '2021-11-01', time: '10:00 AM', assgn: 'Raffique Muir'}
+            var b = {status: 'IN PROGRESS', date: '20201-11-02', time: '12:00 PM', assgn: 'Raffique Muir'}
+            var c = {status: 'CLOSED', date: '2021-11-12', time: '11:30 AM', assgn: 'Raffique Muir'}
+            var historyline = [a,b,c]
+            var info = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat quo tenetur magni ex laboriosam temporibus. Nostrum ullam blanditiis, voluptas aut sapiente obcaecati. Quaerat libero minima beatae dolorum quam placeat debitis! Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, obcaecati temporibus. Dolorem adipisci animi fuga nobis, odio aspernatur mollitia eaque id sint! Magni velit cumque quos inventore blanditiis nobis amet. Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate maiores quos ut adipisci necessitatibus quibusdam libero autem ab inventore ex nobis ad similique, nihil sed aliquid! Eos totam voluptatibus impedit.'
 
             detailViewer(001, 'Lets create a New GUI', info, 'Raffique Muir', 'Proposal', 'Major', 'OPEN', historyline)
 

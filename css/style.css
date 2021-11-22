@@ -4,7 +4,17 @@
   background-position: center center; }
 
 .wrapper {
-  width: 100%; }
+  width: 100%; 
+}
+
+
+
+.form-select{
+  width: 100%; 
+  max-width: 600px; 
+  margin-left: 11px; 
+  margin-bottom: 25px;
+}
 
 #sidebar {
   min-width: 250px;
