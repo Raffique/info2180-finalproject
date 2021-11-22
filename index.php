@@ -74,7 +74,25 @@
             }
 
             /*this is to be used for final production rather than the above for testing*/
-            
+            //place the function inside a false statement cuz it was being triggered for some reason
+            if(false){
+                const loginHandler = () => {
+                $.ajax("db.php", {
+                type: 'POST',
+                data: {email: $('#email').val(), password: $('#password').val()}
+                }).done((res) => {
+                /** THIS SHOULD BE REPLACED WITH A FUNCTION THAT RECEIVES THE WEBPAGE FILES 
+                 * AND LOADS THE CONTENT INSTEAD OF DIRECTING TO REDIRECTING TO THE PAGE*/
+                /** REMOVE THIS WHEN CODE MENTION ABOVE IS IMPLEMENTED*/
+                if (res.success == true){window.location.replace(res.url)}
+                /**---------------------------------------------------- */
+                else{window.alert('Invalid Email or Password!')}
+                }).fail((res) => {
+                window.alert(res)
+                })
+                }
+
+            }
         }
     </script>
 </html>
