@@ -54,7 +54,7 @@
         <a href="#" id="addissue"><span> <img src="images/add.png" alt=""> New Issue</span></a>
       </li>
       <li>
-        <a href="#" id="poweroff"><span> <img src="images/poweroff.png" alt=""> Logout</span></a>
+        <a href="logout.php" id="poweroff"><span> <img src="images/poweroff.png" alt=""> Logout</span></a>
       </li>';
     }
     else{
@@ -65,7 +65,7 @@
         <a href="#" id="addissue"><span> <img src="images/add.png" alt=""> New Issue</span></a>
       </li>
       <li>
-        <a href="#" id="poweroff"><span> <img src="images/poweroff.png" alt=""> Logout</span></a>
+        <a href="logout.php" id="poweroff"><span> <img src="images/poweroff.png" alt=""> Logout</span></a>
       </li>';
     }
     ?>
@@ -80,4 +80,6 @@
   
 </div>
 
-</body></html>
+</body>
+
+</html>
