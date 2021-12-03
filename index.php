@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,20 +31,19 @@
 
                     <h2 style="padding-bottom:20px;"> Login</h2>
 
-                    
-                        
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input class="form-control" type="email" name="email" id="email" required>
-                        </div>
+                        <form method="post" action='login.php' onsubmit='return signIn();'>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input class="form-control" type="email" name="email" id="email" required>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input class="form-control" type="password" name="password" id="password" required>
-                        </div>
-                        
-                        <button class="btn btn-primary form-btn" id="sign-in" onclick="signIn()">Login</button>
-                    
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input class="form-control" type="password" name="password" id="password" required>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary form-btn" id="sign-in" >Login</button>
+                        </form>
                 </div>
             </div>
         </div>
@@ -54,7 +54,6 @@
         
 
         fullHeight = () => {
-            
             $('.js-fullheight').css('height', $(window).height());
             $(window).resize(function(){
                 $('.js-fullheight').css('height', $(window).height());
@@ -64,34 +63,15 @@
         fullHeight();
 
         signIn = () =>{
-
-            /*this code is just for testing should be deleted eventually*/
-            if ($('#email').val() == 'admin@admin.com' && $('#password').val() == '1234'){
-                window.location.replace('base.php')
-            }
-            else{
-                window.alert('Invalid!')
-            }
-
-            /*this is to be used for final production rather than the above for testing*/
-            //place the function inside a false statement cuz it was being triggered for some reason
-            if(false){
-                const loginHandler = () => {
-                $.ajax("db.php", {
-                type: 'POST',
-                data: {email: $('#email').val(), password: $('#password').val()}
-                }).done((res) => {
-                /** THIS SHOULD BE REPLACED WITH A FUNCTION THAT RECEIVES THE WEBPAGE FILES 
-                 * AND LOADS THE CONTENT INSTEAD OF DIRECTING TO REDIRECTING TO THE PAGE*/
-                /** REMOVE THIS WHEN CODE MENTION ABOVE IS IMPLEMENTED*/
-                if (res.success == true){window.location.replace(res.url)}
-                /**---------------------------------------------------- */
-                else{window.alert('Invalid Email or Password!')}
-                }).fail((res) => {
-                window.alert(res)
-                })
-                }
-
+            
+            const loginHandler = () => {
+            $.ajax("login.php", {
+            type: 'POST',
+            data: {
+                email: $('#email').val(), 
+                password: $('#password').val()}
+            }).done((res) => {
+                // Not doing anything here right now
             }
         }
     </script>
