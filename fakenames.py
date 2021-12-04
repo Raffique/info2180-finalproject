@@ -10,6 +10,7 @@ issuelst = []
 statuslst = ["Open", "Closed", "In Progress"]
 typelst = ["Bug", "Proposal", "Task"]
 prioritylst = ["Major", "Minor", "Critical"]
+<<<<<<< HEAD
 devlst2 = [{"firstname" : "Raffique", "lastname" : "Muir", "Userpassword" : "$2y$10$MrzWKXOgYswzol8OEzk4BOM2eWKbIgi.ZDd530d2KkUsgxXO64h7O", "email" : "rm@project2.com", "dateJoined": "0000-00-00"},
             {"firstname" : "Michael", "lastname" : "Pearson", "Userpassword" : "$2y$10$MrzWKXOgYswzol8OEzk4BOM2eWKbIgi.ZDd530d2KkUsgxXO64h7O", "email" : "mp@project2.com", "dateJoined": "0000-00-00"},
             {"firstname" : "Theodore", "lastname" : "Bennett", "Userpassword" : "$2y$10$MrzWKXOgYswzol8OEzk4BOM2eWKbIgi.ZDd530d2KkUsgxXO64h7O", "email" : "tb@project2.com", "dateJoined": "0000-00-00"},
@@ -19,6 +20,13 @@ devlst = [2,3,4,5,6]
 count =0
 
 for i in range(0,24):
+=======
+devlst2 = ["Raffique Muir", "Michael Pearson", "Theodore Bennett", "Daniel Jennings", "Tajay Edwards"]
+devlst = [1,2,3,4,5]
+count =0
+
+for i in range(0,30):
+>>>>>>> main
     userlst.append({"firstname": fake.unique.first_name(), "lastname": fake.unique.last_name(), "Userpassword": fake.unique.password(), "email": fake.unique.email(), "dateJoined": fake.unique.date()})
     
 for i in userlst:
@@ -34,12 +42,15 @@ try:
     )
 
     cur = conn.cursor()
+<<<<<<< HEAD
     for i in devlst2:
         sql = "INSERT INTO `Users` (`firstname`, `lastname`, `Userpassword`,`email`,`dateJoined`) VALUES (%s, %s, %s, %s, %s)"
         sqlVar = (i["firstname"], i["lastname"], i["Userpassword"], i["email"], i["dateJoined"])
         cur.execute(sql, sqlVar)
         conn.commit()
 
+=======
+>>>>>>> main
     for i in userlst:
         sql = "INSERT INTO `Users` (`firstname`, `lastname`, `Userpassword`,`email`,`dateJoined`) VALUES (%s, %s, %s, %s, %s)"
         sqlVar = (i["firstname"], i["lastname"], i["Userpassword"], i["email"], i["dateJoined"])

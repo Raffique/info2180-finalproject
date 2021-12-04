@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 DROP DATABASE IF EXISTS bugme;
 CREATE DATABASE bugme;
 USE bugme;
@@ -26,4 +30,8 @@ create table Issues(
     updated DATETIME
 );
 
+<<<<<<< HEAD
 insert into Users values (1, "John", "Brown", "$2y$10$MrzWKXOgYswzol8OEzk4BOM2eWKbIgi.ZDd530d2KkUsgxXO64h7O","admin@project2.com", 11/11/2021);
+=======
+insert into Users values (1, "John", "Brown", "password123","admin@project2.com", 11/11/2021);
+>>>>>>> main
