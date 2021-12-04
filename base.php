@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -39,9 +40,11 @@
       </button>
     </div>
     
+    
     <ul class="list-unstyled components mb-5">
-      
-      <li>
+    <?php
+    if($_SESSION["usertype"] == 'admin'){
+      echo '<li>
         <a href="#" id="home"><span> <img src="images/home.png" alt=""> Home</span></a>
       </li>
       <li>
@@ -51,9 +54,21 @@
         <a href="#" id="addissue"><span> <img src="images/add.png" alt=""> New Issue</span></a>
       </li>
       <li>
-        <a href="#" id="poweroff"><span> <img src="images/poweroff.png" alt=""> Logout</span></a>
+        <a href="logout.php" id="poweroff"><span> <img src="images/poweroff.png" alt=""> Logout</span></a>
+      </li>';
+    }
+    else{
+      echo '<li>
+        <a href="#" id="home"><span> <img src="images/home.png" alt=""> Home</span></a>
       </li>
-     
+      <li>
+        <a href="#" id="addissue"><span> <img src="images/add.png" alt=""> New Issue</span></a>
+      </li>
+      <li>
+        <a href="logout.php" id="poweroff"><span> <img src="images/poweroff.png" alt=""> Logout</span></a>
+      </li>';
+    }
+    ?>
     </ul>
   </nav>
 
@@ -65,4 +80,6 @@
   
 </div>
 
-</body></html>
+</body>
+
+</html>
