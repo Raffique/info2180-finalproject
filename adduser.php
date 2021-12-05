@@ -12,7 +12,7 @@
 
             <h2 style="margin-bottom:30px;">New User</h2>
 
-            <form action="">
+            <form id='adduser' method='post'>
                 <div class="form-group" style="margin-bottom: 20px;">
                     <label for="fname">Firstname</label>
                     <input class="form-control" type="text" name="fname" id="fname" required style="max-width: 600px;">
@@ -31,10 +31,29 @@
                 </div>
                 
                
-                <button class="btn btn-primary form-btn" id="btn-user">Submit</button>
+                <button type='submit' class="btn btn-primary form-btn" id="btn-user">Submit</button>
                 <script>
-                    $('#btn-user').click(()=>{
+                    $('#adduser').submit((e)=>{
                         /*code to create/save new users to database*/
+                        e.preventDefault()
+
+                        $.ajax("adduser-server.php", {
+                            type: 'POST',
+                            data: {
+                                fname: $('#fname').val(), 
+                                lanme: $('lname').val(),
+                                password: $('#password').val(),
+                                email: $('#email').val()
+                            }
+                        }).done((res) => {
+                            alert.res()
+                            $('#fname').val('')
+                            $('lname').val('')
+                            $('#password').val('')
+                            $('#email').val('')
+                        }).fail((res) => {
+                            alert(res)
+                        })
                     })
                 </script>
             </form>

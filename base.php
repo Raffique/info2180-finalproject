@@ -43,7 +43,7 @@
     
     <ul class="list-unstyled components mb-5">
     <?php
-    if($_SESSION["usertype"] == 'admin'){
+    if($_SESSION["privilege"] == 'admin'){
       echo '<li>
         <a href="#" id="home"><span> <img src="images/home.png" alt=""> Home</span></a>
       </li>

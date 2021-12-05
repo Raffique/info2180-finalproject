@@ -175,22 +175,53 @@
                 
                 issueViewer = (number) =>{
                     /*code that gets the info and description from database and loads the info into details.php page*/
-
+                    
                     console.log('this is from the issueViewer function number'+number)
                     $('#content').load('detail.php')
 
                 }
 
+                <?php 
+                    $host = 'localhost';
+                    $username = 'root';
+                    $password = '';
+                    $dbname = 'bugme';
+                
+                    try {
+                        $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+                    }
+                    catch (Exception $e){
+                        die($e->getMessage());
+                    }
+
+                    $query = "SELECT * FROM Issues";
+                    try{
+                        $statement = $conn->query($query);
+                        $results = $statement->fetch(PDO::FETCH_ASSOC);
+
+                    }
+                    catch (PDOException $e){
+                        echo "Error! " . $e->getMessage() . "<br/>";
+                        die();
+                    } 
+
+                    //THIS NEED FI FIX UP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+                    for($i=0; $i<count($results); $i++){
+                        echo "issueLister('$results[$i][id]', '$results[$i][title]', '$results[$i][i_type]', '$results[$i][i_status]', $results[$i][assigned_to]', '$results[$i][created]')";
+                    }
+
+                ?>
+
                 /*THESE ARE JUST DUMMY EXAMPLES OF USING THE FUNCTION*/
                 /*!!!!!!! CODE FOR RETRIEVING DATA FROM DATABASE. USE LOOP TO POPULATE DATA INTO THE TABLE  !!!!!!!*/
-                issueLister(1, 'Proposal1', 'Proposal', 'OPEN', 'Raffique Muir', '2021-11-17')
+                /* issueLister(1, 'Proposal1', 'Proposal', 'OPEN', 'Raffique Muir', '2021-11-17')
                 issueLister(2, 'Bug1', 'Bug', 'IN PROGRESS', 'Jeremy Green', '2021-12-17')
                 issueLister(3, 'Task1', 'Cleaning code', 'IN PROGRESS', 'Mike Blue', '2021-12-19')
                 issueLister(4, 'Task2', 'Upgrading code', 'IN PROGRESS', 'Raffique Muir', '2021-12-19')
                 issueLister(5, 'bug2', 'Bug', 'CLOSED', 'Raffique Muir', '2021-12-20')
                 for(let m = 0; m < 20; m++){
                     issueLister(m+6, `proposal${m+6}`, 'Proposal', 'OPEN', 'Raffique Muir', '2021-12-30')
-                }
+                } */
             </script>
 
         </div>

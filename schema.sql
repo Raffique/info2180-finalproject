@@ -1,37 +1,31 @@
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 DROP DATABASE IF EXISTS bugme;
 CREATE DATABASE bugme;
 USE bugme;
 
-
+drop table if EXISTS Users;
 create table Users(
-    userid INTEGER(7) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    id INTEGER(7) AUTO_INCREMENT NOT NULL PRIMARY KEY,
     firstname VARCHAR(255),
     lastname VARCHAR(255),
-    Userpassword VARCHAR(255),
+    u_password VARCHAR(255),
     email VARCHAR(255),
-    dateJoined DATETIME
+    date_joined DATETIME,
+    privilege ENUM('admin', 'regular')
 );
 
-
+drop table if exists Issues;
 create table Issues(
-    iid INTEGER(255) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    id INTEGER(255) AUTO_INCREMENT NOT NULL PRIMARY KEY,
     title VARCHAR(255),
-    IssueDesc TEXT(100),
-    Issuetype VARCHAR(255),
-    IssuePriority VARCHAR(255),
-    IssueStatus VARCHAR(255),
-    assignedTo INTEGER(7),
-    createdBy INTEGER(7),
+    i_description TEXT(100),
+    i_type VARCHAR(255),
+    i_priority VARCHAR(255),
+    i_status VARCHAR(255),
+    assigned_to INTEGER(7),
+    created_by INTEGER(7),
     created DATETIME,
     updated DATETIME
 );
 
-<<<<<<< HEAD
-insert into Users values (1, "John", "Brown", "$2y$10$MrzWKXOgYswzol8OEzk4BOM2eWKbIgi.ZDd530d2KkUsgxXO64h7O","admin@project2.com", 11/11/2021);
-=======
-insert into Users values (1, "John", "Brown", "password123","admin@project2.com", 11/11/2021);
->>>>>>> main
+insert into Users values (1, "John", "Brown", "password123","admin@project2.com", '2021-12-01 12:00:00', 'admin');

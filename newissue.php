@@ -10,7 +10,7 @@
 
     <div class="container-fluid" style="padding-bottom: 25em;">
         <h2 style="margin-bottom: 30px;">Create Issue</h2>
-        <form action="#">
+        <form id='newissue' method='post'>
         
             <div class="form-group" style="margin-bottom: 20px;">
                 <label for="title">Title</label>
@@ -30,6 +30,36 @@
                     <script>
                         //populate select with options of user names and their id's should be the s=assigned value
                     </script>
+                    <?php
+
+                        $host = 'localhost';
+                        $username = 'root';
+                        $password = '';
+                        $dbname = 'bugme';
+
+                        try {
+                            $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+                        }
+                        catch (Exception $e){
+                            die($e->getMessage());
+                        }
+
+                        $query = "SELECT id, firstname, lastname FROM Users";
+                        try{
+                            $statement = $conn->query($query);
+                            $results = $statement->fetch(PDO::FETCH_ASSOC);
+
+                    }
+                        catch (PDOException $e){
+                            echo "Error! " . $e->getMessage() . "<br/>";
+                            die();
+                        }
+
+                        for ( $i = 0; $i < count($results); $i++) {
+                            echo "<option value = $results[$i]['id']>$results[$i]['firstname'] $results[$i]['lastname'] </option>";
+                        }
+
+                    ?>
                 </select>
             </div>
             
@@ -56,8 +86,29 @@
         
             <button class="btn btn-primary form-btn" id="btn-issue">Submit</button>
             <script>
-                $('#btn-issue').click(()=>{
+                $('#newissue').submit((e)=>{
                     /*code to create/save new issue to database*/
+                    e.preventDefault()
+
+                        $.ajax("newissue-server.php", {
+                            type: 'POST',
+                            data: {
+                                title: $('#title').val(), 
+                                desc: $('desc').val(),
+                                assgn: $('#assgn').val(),
+                                type: $('type').val(),
+                                priority: $('priority').val()
+                            }
+                        }).done((res) => {
+                            alert.res()
+                            $('#title').val(''), 
+                            $('desc').val(''),
+                            $('#assgn').val(''),
+                            $('type').val(''),
+                            $('priority').val('')
+                        }).fail((res) => {
+                            alert(res)
+                        })
                 })
             </script>
         </form>

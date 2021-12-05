@@ -31,7 +31,7 @@
 
                     <h2 style="padding-bottom:20px;"> Login</h2>
 
-                        <form method="post" action='login.php' onsubmit='return signIn();'>
+                        <form id='login' method="post">
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input class="form-control" type="email" name="email" id="email" required>
@@ -62,17 +62,22 @@
         };
         fullHeight();
 
-        signIn = () =>{
-            
-            const loginHandler = () => {
+        $('#login').submit((e)=>{
+
+            e.preventDefault()
+
             $.ajax("login.php", {
-            type: 'POST',
-            data: {
-                email: $('#email').val(), 
-                password: $('#password').val()}
+                type: 'POST',
+                data: {
+                    email: $('#email').val(), 
+                    password: $('#password').val()}
             }).done((res) => {
-                // Not doing anything here right now
-            }
-        }
+                $('html').html(res)
+            }).fail((res) => {
+                alert(res)
+            })
+        })
+
+       
     </script>
 </html>
