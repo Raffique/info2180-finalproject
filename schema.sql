@@ -16,7 +16,7 @@ create table Users(
 
 drop table if exists Issues;
 create table Issues(
-    id INTEGER(255) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    i_id INTEGER(255) AUTO_INCREMENT NOT NULL PRIMARY KEY,
     title VARCHAR(255),
     i_description TEXT(100),
     i_type VARCHAR(255),

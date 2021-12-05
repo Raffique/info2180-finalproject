@@ -1,8 +1,5 @@
-console.log('main.js file being called here')
-
 window.onload = () => {
 
-		console.log('main.js file being called here')
 		$('#content').load('home.php')
 		
 	

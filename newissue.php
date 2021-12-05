@@ -10,7 +10,7 @@
 
     <div class="container-fluid" style="padding-bottom: 25em;">
         <h2 style="margin-bottom: 30px;">Create Issue</h2>
-        <form id='newissue' method='post'>
+        <form id='issue-form' method='post'>
         
             <div class="form-group" style="margin-bottom: 20px;">
                 <label for="title">Title</label>
@@ -37,27 +37,25 @@
                         $password = '';
                         $dbname = 'bugme';
 
-                        try {
-                            $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-                        }
-                        catch (Exception $e){
-                            die($e->getMessage());
-                        }
+                        // Create connection
+                        $conn = new mysqli($host, $username, $password, $dbname);
+                        // Check connection
+                        if ($conn->connect_error) {
+                        die("Connection failed: " . $conn->connect_error);
+                        } 
 
                         $query = "SELECT id, firstname, lastname FROM Users";
-                        try{
-                            $statement = $conn->query($query);
-                            $results = $statement->fetch(PDO::FETCH_ASSOC);
+                        $options = $conn->query($query);
 
-                    }
-                        catch (PDOException $e){
-                            echo "Error! " . $e->getMessage() . "<br/>";
-                            die();
+                        if ($options->num_rows > 0){
+                            while ($row = $options->fetch_assoc()){
+                                $id = $row['id'];
+                                $fn = $row['firstname'];
+                                $ln = $row['lastname'];
+                                echo "<option value = $id> $fn $ln </option>";
+                            }
                         }
-
-                        for ( $i = 0; $i < count($results); $i++) {
-                            echo "<option value = $results[$i]['id']>$results[$i]['firstname'] $results[$i]['lastname'] </option>";
-                        }
+                        
 
                     ?>
                 </select>
@@ -67,9 +65,9 @@
             <div class="row" style="margin-bottom: 20px;">
                 <label for="type">Type</label>
                 <select class="custom-select form-select" name="type" id="type" required style="max-width: 600px;">
-                    <option value="bug">Bug</option>
-                    <option value="proposal">Proposal</option>
-                    <option value="task">Task</option>
+                    <option value="Bug">Bug</option>
+                    <option value="Proposal">Proposal</option>
+                    <option value="Task">Task</option>
                 </select>
             </div>
             
@@ -77,45 +75,42 @@
             <div class="row" style="margin-bottom: 20px;">
                 <label for="priority">Priority</label>
                 <select class="custom-select form-select" name="priority" id="priority" required style="max-width: 600px;">
-                    <option value="minor">Minor</option>
-                    <option value="major">Major</option>
-                    <option value="critical">Critical</option>
+                    <option value="Minor">Minor</option>
+                    <option value="Major">Major</option>
+                    <option value="Critical">Critical</option>
                 </select>
             </div>
             
         
             <button class="btn btn-primary form-btn" id="btn-issue">Submit</button>
-            <script>
-                $('#newissue').submit((e)=>{
-                    /*code to create/save new issue to database*/
-                    e.preventDefault()
-
-                        $.ajax("newissue-server.php", {
-                            type: 'POST',
-                            data: {
-                                title: $('#title').val(), 
-                                desc: $('desc').val(),
-                                assgn: $('#assgn').val(),
-                                type: $('type').val(),
-                                priority: $('priority').val()
-                            }
-                        }).done((res) => {
-                            alert.res()
-                            $('#title').val(''), 
-                            $('desc').val(''),
-                            $('#assgn').val(''),
-                            $('type').val(''),
-                            $('priority').val('')
-                        }).fail((res) => {
-                            alert(res)
-                        })
-                })
-            </script>
+            
         </form>
     </div>
-
-    
-    
-    
 </body>
+<script>
+    $('#issue-form').submit((e)=>{
+        /*code to create/save new issue to database*/
+        e.preventDefault()
+
+            $.ajax("newissue-server.php", {
+                type: 'POST',
+                data: {
+                    title: $('#title').val(), 
+                    desc: $('#desc').val(),
+                    assgn: $('#assgn').val(),
+                    type: $('#type').val(),
+                    priority: $('#priority').val()
+                }
+            }).done((res) => {
+                alert(res)
+                $('#title').val(''), 
+                $('#desc').val(''),
+                $('#assgn').val(''),
+                $('#type').val(''),
+                $('#priority').val('')
+            }).fail((res) => {
+                alert(res)
+            })
+    })
+</script>
 </html>

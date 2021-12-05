@@ -70,6 +70,7 @@
             e.preventDefault()
 
             $.ajax("login.php", {
+                async: true,
                 type: 'POST',
                 data: {
                     email: $('#email').val(), 
