@@ -44,9 +44,12 @@
                             
                             <button type="submit" class="btn btn-primary form-btn" id="sign-in" >Login</button>
                         </form>
+
+                        
                 </div>
             </div>
         </div>
+
     </main>
  
 </body>
@@ -72,6 +75,7 @@
                     email: $('#email').val(), 
                     password: $('#password').val()}
             }).done((res) => {
+                //console.log(res)
                 $('html').html(res)
             }).fail((res) => {
                 alert(res)

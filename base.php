@@ -1,6 +1,8 @@
-<?php session_start();?>
+
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+  
+<head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>BugMe</title>
 <meta charset="utf-8">
@@ -20,7 +22,7 @@
 
 </head>
 
-
+<?php session_start();?>
 
 <body>
 

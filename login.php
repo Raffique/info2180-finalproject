@@ -36,7 +36,8 @@ if(isset($_POST["email"])){
 
         $_SESSION['privilege'] = $results['privilege'];
         $_SESSION['id'] = $results['id'];
-        header('Location: base.php',TRUE,302);
+        //header('Location: base.php',TRUE,302);
+        echo json_encode( include 'base.php');
 
     }
     else{
