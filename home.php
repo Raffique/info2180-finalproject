@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -109,34 +110,7 @@
             <script>
                 
 
-                btnForm = (el) => {
-
-                    [...$('#btn-group').children()].forEach((obj) => { 
-                        let name = '#'+obj.attributes[1].value; /* string: '#+id' */
-                        if (! $(name).hasClass('filter-btn')) {
-                            $(name).removeClass('filter-btn2'); 
-                            $(name).addClass('filter-btn')
-                        }
-                    })
-                    
-                    el.removeClass('filter-btn'); el.addClass('filter-btn2');
-                }
-
-                $('#filter-all').click(()=>{
-                    btnForm($('#filter-all'))
-                    /*-----code to filter all issues-------*/
-                })
-                    
-                $('#filter-open').click(()=>{
-                    btnForm($('#filter-open'))
-                    /*-----code to filter open issues-------*/
-                })
-
-                $('#filter-my-tickets').click(()=>{
-                    btnForm($('#filter-my-tickets'))
-                    /*-----code to filter all assigned issues-------*/
-                    
-                })
+                
             </script>
         </div>
 
@@ -147,86 +121,113 @@
                 <div class="t-column heading-color">Type</div>
                 <div class="t-column heading-color">Status</div>
                 <div class="t-column heading-color">Assigned To</div>
-                <div class="t-column heading-color">Created</div>
+                <div class="t-column heading-color">Created</div>    
             </div>
+            <?php 
+                $host = 'localhost';
+                $username = 'root';
+                $password = '';
+                $dbname = 'bugme';
+            
+                // Create connection
+                $conn = new mysqli($host, $username, $password, $dbname);
+                // Check connection
+                if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+                } 
+
+                $query = "SELECT * FROM Issues join Users on Issues.assigned_to=Users.id";
+                $results = $conn->query($query);
+
+                if ($results->num_rows > 0) {
+                    while ($row = $results->fetch_assoc()) {
+                        $number = $row['i_id'];
+                        $title = $row['title'];
+                        $type = $row['i_type'];
+                        $status = $row['i_status'];
+                        $assgn = $row['assigned_to'];
+                        $name = $row['firstname'].' '.$row['lastname'];
+                        $date = $row['created'];
+
+                        $user_id = $_SESSION['id'];
+
+                        $stat_class = '';
+                        if ($status == 'OPEN'){$stat_class = 'open';}
+                        else if ($status == 'CLOSED'){$stat_class = 'closed';}
+                        else if ($status == 'IN PROGRESS'){$stat_class = 'in-progress';}
+
+
+                        echo    "<div class='info-block' name='$status' value=$assgn>
+                                    <div class='issue-list'  onclick='issueViewer($number)'>
+                                        <div class='t-column-title'><span>#$number</span> <span style='color: lightskyblue;'>$title</span></div>
+                                        <div class='t-column'>$type</div>
+                                        <div class='t-column'><button class='btn-status status-$stat_class' id='btn-status' >$status</button></div>
+                                        <div class='t-column'>$name</div>
+                                        <div class='t-column'>$date</div>
+                                    </div>
+                                    <hr style='background-color: black; margin: 0px;'>
+                                </div>";
+                    }
+                }
+                $conn->close();
+            ?>
 
 
             <script>
-                issueLister = (number, title, type, status, assgn, date) => {
-                    
-                    var stat = ''
-                    if (status == 'OPEN'){stat = 'open'}
-                    else if (status == 'CLOSED'){stat = 'closed'}
-                    else if (status == 'IN PROGRESS'){stat = 'in-progress'}
 
-                    var html = 
-                    ` <div class='issue-list'  onclick='issueViewer(${number})'> `+
-                        `<div class="t-column-title"><span>#${number}</span> <span style='color: lightskyblue;'>${title}</span></div>` +
-                        `<div class="t-column">${type}</div>`+
-                        `<div class="t-column"><button class='btn-status status-${stat}' id='btn-status' >${status}</button></div>`+
-                        `<div class="t-column">${assgn}</div>`+
-                        `<div class="t-column">${date}</div>`+
-                    `</div>`+
-                    `<hr style='background-color: black; margin: 0px;'>`;
+                btnForm = (el) => {
 
-                    $('#issue-window').append(html)
+                [...$('#btn-group').children()].forEach((obj) => { 
+                    let name = '#'+obj.attributes[1].value; /* string: '#+id' */
+                    if (! $(name).hasClass('filter-btn')) {
+                        $(name).removeClass('filter-btn2'); 
+                        $(name).addClass('filter-btn')
+                    }
+                })
 
+                el.removeClass('filter-btn'); el.addClass('filter-btn2');
                 }
+
+                $('#filter-all').click(()=>{
+                    btnForm($('#filter-all'))
+                    /*-----code to filter all issues-------*/
+                    $('.info-block').show()
+                    
+                })
+
+                $('#filter-open').click(()=>{
+                    btnForm($('#filter-open'))
+                    /*-----code to filter open issues-------*/ 
+                    $('.info-block').hide() 
+                    $('.info-block[name="OPEN"]').show() 
+                })
+
+                $('#filter-my-tickets').click(()=>{
+                    btnForm($('#filter-my-tickets'))
+                    /*-----code to filter all assigned issues-------*/
+                    $('.info-block').hide()
+                    let arg =  '.info-block[value="'+ <?php echo $_SESSION['id'] ?>  +'"]'
+                    $(arg).show()
+
+                })
                 
                 issueViewer = (number) =>{
                     /*code that gets the info and description from database and loads the info into details.php page*/
                     
-                    console.log('this is from the issueViewer function number'+number)
+                    $.ajax("set-issue-id.php", {
+                        type: 'POST',
+                        data: {
+                            issue_id: number
+                        }
+                    })
                     $('#content').load('detail.php')
 
                 }
 
-                <?php 
-                    $host = 'localhost';
-                    $username = 'root';
-                    $password = '';
-                    $dbname = 'bugme';
-                
-                    try {
-                        $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-                    }
-                    catch (Exception $e){
-                        die($e->getMessage());
-                    }
-
-                    $query = "SELECT * FROM Issues";
-                    try{
-                        $statement = $conn->query($query);
-                        $results = $statement->fetch(PDO::FETCH_ASSOC);
-
-                    }
-                    catch (PDOException $e){
-                        echo "Error! " . $e->getMessage() . "<br/>";
-                        die();
-                    } 
-
-                    //THIS NEED FI FIX UP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-                    for($i=0; $i<count($results); $i++){
-                        echo "issueLister('$results[$i][id]', '$results[$i][title]', '$results[$i][i_type]', '$results[$i][i_status]', $results[$i][assigned_to]', '$results[$i][created]')";
-                    }
-
-                ?>
-
-                /*THESE ARE JUST DUMMY EXAMPLES OF USING THE FUNCTION*/
-                /*!!!!!!! CODE FOR RETRIEVING DATA FROM DATABASE. USE LOOP TO POPULATE DATA INTO THE TABLE  !!!!!!!*/
-                /* issueLister(1, 'Proposal1', 'Proposal', 'OPEN', 'Raffique Muir', '2021-11-17')
-                issueLister(2, 'Bug1', 'Bug', 'IN PROGRESS', 'Jeremy Green', '2021-12-17')
-                issueLister(3, 'Task1', 'Cleaning code', 'IN PROGRESS', 'Mike Blue', '2021-12-19')
-                issueLister(4, 'Task2', 'Upgrading code', 'IN PROGRESS', 'Raffique Muir', '2021-12-19')
-                issueLister(5, 'bug2', 'Bug', 'CLOSED', 'Raffique Muir', '2021-12-20')
-                for(let m = 0; m < 20; m++){
-                    issueLister(m+6, `proposal${m+6}`, 'Proposal', 'OPEN', 'Raffique Muir', '2021-12-30')
-                } */
             </script>
 
         </div>
         
     </div>
-    
 </body>
 </html>

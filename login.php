@@ -1,47 +1,88 @@
-<?php
 
-session_start();
-if(isset($_POST["email"])){
-    $host = 'localhost';
-    $username = 'root';
-    $password = '';
-    $dbname = 'bugme';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    try {
-        $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    }
-    catch (Exception $e){
-        die($e->getMessage());
-    }
-
-
-    $input_email = filter_var($_POST["email"],FILTER_SANITIZE_EMAIL);
-    $input_password = filter_var($_POST["password"],FILTER_SANITIZE_STRING);
+    <link rel="stylesheet" href="css/style.css">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="script/jquery-3.6.0.js"></script>
     
 
-    $query = "SELECT * FROM Users WHERE email = '$input_email'";
-    try{
-        $statement = $conn->query($query);
-        $results = $statement->fetch(PDO::FETCH_ASSOC);
-        $db_password = $results["u_password"];
+    <title>BugMe</title>
+</head>
+<body>
 
-  }
-    catch (PDOException $e){
-        echo "Error! " . $e->getMessage() . "<br/>";
-        die();
-    } 
+    <main class="container-fluid">
+        <div class="p-4 p-md-5 pt-5 d-flex justify-content-center align-items-center">
+            <div class="" style="border: solid 5px gray; border-radius: 20px; padding: 50px; background-color:#dddddd;">
+                <div class="container-fluid ">
 
-    //if(password_verify($input_password, $db_password)){
-    if($input_password== $db_password){
+                    <h2 style="padding-bottom:20px;"> Login</h2>
 
-        $_SESSION['privilege'] = $results['privilege'];
-        $_SESSION['id'] = $results['id'];
-        //header('Location: base.php',TRUE,302);
-        echo json_encode( include 'base.php');
+                        <form id='login' method="post">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input class="form-control" type="email" name="email" id="email" required>
+                            </div>
 
-    }
-    else{
-        die("Error: Incorrect username or password");
-    }
-}
-?>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input class="form-control" type="password" name="password" id="password" required>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary form-btn" id="sign-in" >Login</button>
+                        </form>
+
+                        
+                </div>
+            </div>
+        </div>
+
+    </main>
+ 
+</body>
+<script>
+        
+        $('#sidebar').hide()
+
+        fullHeight = () => {
+            $('.js-fullheight').css('height', $(window).height());
+            $(window).resize(function(){
+                $('.js-fullheight').css('height', $(window).height());
+            });
+
+        };
+        fullHeight();
+
+        $('#login').submit((e)=>{
+
+            e.preventDefault()
+
+            $.ajax("login-server.php", {
+                async: true,
+                type: 'POST',
+                data: {
+                    email: $('#email').val(), 
+                    password: $('#password').val()}
+            }).done((res) => {
+
+
+                alert("Login Successful")
+                $('#sidebar').show()
+                $('#content').load(res)
+            
+
+            }).fail((res) => {
+                alert(res)
+            })
+        })
+
+       
+    </script>
+</html>

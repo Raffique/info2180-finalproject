@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,110 +11,180 @@
 
     <div class="container-fluid" id="detail-content" style="padding-bottom: 25em;">
 
-        <script>
+        <?php
+            $host = 'localhost';
+            $username = 'root';
+            $password = '';
+            $dbname = 'bugme';
 
-            detailViewer = (number, title, description, assgn, type, priority, status, history) =>{ 
-                // the dates varibale should be a list containing json objects that contain info history when the issue was made/modified in the fomrat: 
-                //json obj: {status: 'OPEN', date: '2021-12-11', time: '12:56 PM', assgn: 'Raffique Muir'}
-                // this is used in the section below the description to show a timeline hostory of the issue being credted or modified
+            // Create connection
+            $conn = new mysqli($host, $username, $password, $dbname);
+            // Check connection
+            if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+            } 
 
-                
-                var notes = ``
-                history.forEach(el => {
-                    if (el.key == 'OPEN'){
-                        notes += `<span><strong> > </strong></span> <span class="detail-notes">Issue created on ${el.date} at ${el.time} by ${el.assgn}</span><br>`
-                    }
-                    else if (el.key == 'IN PROGRESS'){
-                        notes += `<span><strong> > </strong></span> <span class="detail-notes">Last updated on ${el.date} at ${el.time}</span><br>`
-                    }
-                    else if (el.key == 'CLOSED'){
-                        notes += `<span><strong> > </strong></span> <span class="detail-notes">Issue closed on ${el.date} at ${el.time}</span><br>`
-                    }
-                })
+            $issue_id = $_SESSION['issue-id'];
+            $user_id = $_SESSION['id'];
 
-                var html = `
-                <h1>${title}</h1>
-                <span><strong>Issue #${number}</strong></span>
+            $title = '';
+            $desc = '';
+            $assgn_name = '';
+            $creator_name = '';
+            $type = '';
+            $priority = '';
+            $status = '';
+            $created = '';
+            $updated = NULL;
 
-                <div class="container-fluid" style=" overflow: hidden;">
+            $issue_id_string = strval($issue_id);
+            $query1 = "SELECT * FROM Issues where i_id=$issue_id_string";
 
-                    <!--details-->
-                    <div class="details">
-                        
-                        <div>
-                            <p>
-                                ${description}
-                            </p>
-                        </div>
+            $query2 = "SELECT c.firstname as c_fn, 
+                                c.lastname as c_ln, 
+                                a.firstname as a_fn, 
+                                a.lastname as a_ln 
+                                from Issues i 
+                                join Users c on i.created_by=c.id 
+                                join Users a on i.assigned_to=a.id
+                                where i.i_id = $issue_id_string";
+                                
+            $result1 = $conn->query($query1);
+            if($result1->num_rows > 0){
+                while($row1 = $result1->fetch_assoc()){
 
-                        <div>
-                            ${notes}
-                        </div>
+                    //we have a $issue_id up above remember that
+                    $title = $row1['title'];
+                    $desc = $row1['i_description'];
+                    $type = $row1['i_type'];
+                    $priority = $row1['i_priority'];
+                    $status = $row1['i_status'];
+                    $created = $row1['created'];
+                    $updated = $row1['updated'];
+                }
+            }
+        
 
-                    </div>
+            $result2 = $conn->query($query2);
+            if($result2->num_rows > 0){
+                while($row2 = $result2->fetch_assoc()){
 
-                    <!-- section -->
-                    <div class="section-container">
+                    $assgn_fn = $row2['a_fn'];
+                    $assgn_ln = $row2['a_ln'];
+                    $assgn_name =  $assgn_fn .' '.$assgn_ln;
 
-                        <div class="section-details" >
-                            
-
-                            <div>
-                                <span><strong>Assigned To:</strong></span> 
-                                <br>
-                                <span>${assgn}</span>
-                            </div>
-                            
-                            <div>
-                                <span><strong>Type:</strong></span>
-                                <br> 
-                                <span>${type}</span>
-                            </div>
-                            
-                            <div>
-                                <span><strong>Priority:</strong></span>
-                                <br> 
-                                <span>${priority}</span>
-                            </div>
-                            
-                            <div>
-                                <span><strong>Status:</strong></span>
-                                <br> 
-                                <span>${status}</span>
-                            </div>
-                            
-
-                        </div>
-
-                        <button class="btn btn-primary detail-btn">Mark as Closed</button>
-                        <br>
-                        <button class="btn btn-success detail-btn">Mark In Progress</button>
-
-                    </div>
-
-                </div>
-                `;
-
-                $('#detail-content').html(html)
+                    $creator_fn = $row2['c_fn'];
+                    $creator_ln = $row2['c_ln'];
+                    $creator_name = $creator_fn.' '.$creator_ln;
+                }
             }
 
-            //example of using function
-            var a = {status: 'OPEN', date: '2021-11-01', time: '10:00 AM', assgn: 'Raffique Muir'}
-            var b = {status: 'IN PROGRESS', date: '20201-11-02', time: '12:00 PM', assgn: 'Raffique Muir'}
-            var c = {status: 'CLOSED', date: '2021-11-12', time: '11:30 AM', assgn: 'Raffique Muir'}
-            var historyline = [a,b,c]
-            var info = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat quo tenetur magni ex laboriosam temporibus. Nostrum ullam blanditiis, voluptas aut sapiente obcaecati. Quaerat libero minima beatae dolorum quam placeat debitis! Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, obcaecati temporibus. Dolorem adipisci animi fuga nobis, odio aspernatur mollitia eaque id sint! Magni velit cumque quos inventore blanditiis nobis amet. Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate maiores quos ut adipisci necessitatibus quibusdam libero autem ab inventore ex nobis ad similique, nihil sed aliquid! Eos totam voluptatibus impedit.'
+            $notes = "";
+            if(is_null($updated)){
+                $notes = "<span><strong> > </strong></span> <span class='detail-notes'>Issue created on $created by $creator_name</span><br>";
+            }
+            else{
+                $notes = "<span><strong> > </strong></span> <span class='detail-notes'>Issue created on $created by $creator_name</span><br>".
+                    "<span><strong> > </strong></span> <span class='detail-notes'>Last updated on $updated</span><br>";
+            }
 
-            detailViewer(001, 'Lets create a New GUI', info, 'Raffique Muir', 'Proposal', 'Major', 'OPEN', historyline)
+            echo "  <h1>$title</h1>
+                    <span><strong>Issue #$issue_id</strong></span>
 
-        </script>
+                    <div class='container-fluid' style=' overflow: hidden;'>
 
-        
-        
-       
+                        <!--details-->
+                        <div class='details'>
+                            
+                            <div>
+                                <p>
+                                    $desc
+                                </p>
+                            </div>
 
+                            <div>
+                                $notes
+                            </div>
 
+                        </div>
 
+                        <!-- section -->
+                        <div class='section-container'>
+
+                            <div class='section-details' >
+                                
+
+                                <div>
+                                    <span><strong>Assigned To:</strong></span> 
+                                    <br>
+                                    <span>$assgn_name</span>
+                                </div>
+                                
+                                <div>
+                                    <span><strong>Type:</strong></span>
+                                    <br> 
+                                    <span>$type</span>
+                                </div>
+                                
+                                <div>
+                                    <span><strong>Priority:</strong></span>
+                                    <br> 
+                                    <span>$priority</span>
+                                </div>
+                                
+                                <div>
+                                    <span><strong>Status:</strong></span>
+                                    <br> 
+                                    <span>$status</span>
+                                </div>
+                                
+
+                            </div>
+
+                            <button id='closer' class='btn btn-primary detail-btn'>Mark as Closed</button>
+                            <br>
+                            <button id='progressor' class='btn btn-success detail-btn'>Mark In Progress</button>
+
+                        </div>
+
+                    </div>";
+            $conn->close();
+        ?>
     </div>
 </body>
+<script>
+    $('#closer').click((e)=>{
+        e.preventDefault()
+        console.log('close')
+        $.ajax("change-status.php", {
+            type: 'POST',
+            data: {
+                status: 'CLOSED'
+            }
+        }).done((res) => {
+            alert(res)
+            $('#content').load('detail.php')
+
+        }).fail((res) => {
+            alert(res)
+        })
+    })
+
+    $('#progressor').click((e)=>{
+        e.preventDefault()
+        console.log('progress')
+        $.ajax("change-status.php", {
+            type: 'POST',
+            data: {
+                status: 'IN PROGRESS'
+            }
+        }).done((res) => {
+            alert(res)
+            $('#content').load('detail.php')
+
+        }).fail((res) => {
+            alert(res)
+        })
+    })
+</script>
 </html>
